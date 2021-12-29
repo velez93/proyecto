@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 26-12-2021 a las 15:26:53
+-- Tiempo de generación: 29-12-2021 a las 13:19:30
 -- Versión del servidor: 10.4.20-MariaDB
 -- Versión de PHP: 8.0.9
 
@@ -54,7 +54,31 @@ INSERT INTO `cliente` (`id_Cliente`, `cli_ci`, `cli_nombre`, `cli_apellido`, `cl
 (11, '18252815', 'Carlos', 'Bentancour', 'Justicia 3412', '99540641'),
 (12, '8389719', 'Angela', 'Mautone', 'Arenal Grande 2876', '97131392'),
 (13, '13111367', 'Angela', 'Bugallo', 'Repeto 3987', '96437946'),
-(14, '9041130', 'Antonio ', 'Rambaldi', 'Geminis 3456', '2355-7533');
+(14, '9041130', 'Antonio ', 'Rambaldi', 'Geminis 3456', '2355-7533'),
+(15, '12345', 'Prueba', 'Editar cliente', 'editado 1234', '1234567');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `comisiones`
+--
+
+CREATE TABLE `comisiones` (
+  `id_comisiones` int(11) NOT NULL,
+  `id_vendedor` int(11) DEFAULT NULL,
+  `comision` double DEFAULT NULL,
+  `fecha` date DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `comisiones`
+--
+
+INSERT INTO `comisiones` (`id_comisiones`, `id_vendedor`, `comision`, `fecha`) VALUES
+(1, 1, 1000, '2021-02-01'),
+(2, 1, 2000, '2021-10-20'),
+(3, 2, 5000, '2021-05-15'),
+(4, 3, 10000, '2021-06-05');
 
 -- --------------------------------------------------------
 
@@ -88,14 +112,23 @@ INSERT INTO `usuario` (`Id_usuario`, `ci_usuario`, `nom_usuario`, `ap_usuario`, 
 
 CREATE TABLE `vehiculos` (
   `id_vehi` int(11) NOT NULL,
+  `vehi_matricula` varchar(20) DEFAULT NULL,
   `vehi_marca` varchar(20) DEFAULT NULL,
   `vehi_modelo` varchar(20) DEFAULT NULL,
-  `vehi_matricula` varchar(20) DEFAULT NULL,
   `vehi_km` varchar(100) DEFAULT NULL,
   `vehi_precio` double DEFAULT NULL,
   `vehi_anio` varchar(5) DEFAULT NULL,
   `vehi_disponible` varchar(20) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `vehiculos`
+--
+
+INSERT INTO `vehiculos` (`id_vehi`, `vehi_matricula`, `vehi_marca`, `vehi_modelo`, `vehi_km`, `vehi_precio`, `vehi_anio`, `vehi_disponible`) VALUES
+(1, 'sss222', 'fiat', 'uno', '0km', 1000, '2000', 'si'),
+(2, 'ggg233', 'fiat', 'uno', '0km', 1000, '2000', 'si'),
+(3, 'hhh222', 'fiat', 'uno', '0km', 1000, '2000', 'si');
 
 -- --------------------------------------------------------
 
@@ -105,12 +138,21 @@ CREATE TABLE `vehiculos` (
 
 CREATE TABLE `vendedor` (
   `id_vend` int(11) NOT NULL,
-  `vend_ci` varchar(15) DEFAULT NULL,
-  `vend_nombre` varchar(30) DEFAULT NULL,
-  `vend_apellido` varchar(30) DEFAULT NULL,
-  `vend_direccion` varchar(50) DEFAULT NULL,
-  `vend_telefono` varchar(50) DEFAULT NULL
+  `vend_ci` varchar(20) DEFAULT NULL,
+  `vend_nombre` varchar(100) DEFAULT NULL,
+  `vend_apellido` varchar(100) DEFAULT NULL,
+  `vend_direccion` varchar(100) DEFAULT NULL,
+  `vend_telefono` varchar(20) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `vendedor`
+--
+
+INSERT INTO `vendedor` (`id_vend`, `vend_ci`, `vend_nombre`, `vend_apellido`, `vend_direccion`, `vend_telefono`) VALUES
+(1, '1111', 'Vendedor1', 'Apellodo1', 'Direccion 11', '24509876'),
+(2, '2222', 'Vendedor2', 'Apellodo2', 'Direccion 22', '24509324'),
+(3, '3333', 'Vendedor2', 'Apellodo3', 'Direccion 33', '24509309');
 
 -- --------------------------------------------------------
 
@@ -120,13 +162,21 @@ CREATE TABLE `vendedor` (
 
 CREATE TABLE `ventas` (
   `id_ventas` int(11) NOT NULL,
-  `num_Factura` varchar(15) NOT NULL,
   `id_cliente` int(11) DEFAULT NULL,
   `id_vendedor` int(11) DEFAULT NULL,
   `id_vehiculo` int(11) DEFAULT NULL,
   `fecha` date DEFAULT NULL,
   `Precio` double DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `ventas`
+--
+
+INSERT INTO `ventas` (`id_ventas`, `id_cliente`, `id_vendedor`, `id_vehiculo`, `fecha`, `Precio`) VALUES
+(1, 2, 1, 1, '2021-02-01', 1000),
+(2, 2, 1, 2, '2021-10-20', 1000),
+(3, 3, 2, 3, '2021-05-15', 1000);
 
 --
 -- Índices para tablas volcadas
@@ -137,6 +187,13 @@ CREATE TABLE `ventas` (
 --
 ALTER TABLE `cliente`
   ADD PRIMARY KEY (`id_Cliente`);
+
+--
+-- Indices de la tabla `comisiones`
+--
+ALTER TABLE `comisiones`
+  ADD PRIMARY KEY (`id_comisiones`),
+  ADD KEY `id_vendedor` (`id_vendedor`);
 
 --
 -- Indices de la tabla `usuario`
@@ -173,7 +230,13 @@ ALTER TABLE `ventas`
 -- AUTO_INCREMENT de la tabla `cliente`
 --
 ALTER TABLE `cliente`
-  MODIFY `id_Cliente` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id_Cliente` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+
+--
+-- AUTO_INCREMENT de la tabla `comisiones`
+--
+ALTER TABLE `comisiones`
+  MODIFY `id_comisiones` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `usuario`
@@ -185,17 +248,29 @@ ALTER TABLE `usuario`
 -- AUTO_INCREMENT de la tabla `vehiculos`
 --
 ALTER TABLE `vehiculos`
-  MODIFY `id_vehi` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_vehi` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT de la tabla `vendedor`
+--
+ALTER TABLE `vendedor`
+  MODIFY `id_vend` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de la tabla `ventas`
 --
 ALTER TABLE `ventas`
-  MODIFY `id_ventas` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_ventas` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- Restricciones para tablas volcadas
 --
+
+--
+-- Filtros para la tabla `comisiones`
+--
+ALTER TABLE `comisiones`
+  ADD CONSTRAINT `comisiones_ibfk_1` FOREIGN KEY (`id_vendedor`) REFERENCES `vendedor` (`id_vend`);
 
 --
 -- Filtros para la tabla `ventas`
